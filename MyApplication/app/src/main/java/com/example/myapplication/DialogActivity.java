@@ -1,10 +1,16 @@
 package com.example.myapplication;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -12,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import java.util.Calendar;
 
 public class DialogActivity extends AppCompatActivity {
 
@@ -80,5 +88,87 @@ public class DialogActivity extends AppCompatActivity {
                     }
                 })
                 .show();
+    }
+//显示圆形进度条progressDialog
+    public void showDD(View view) {
+        ProgressDialog dialog=ProgressDialog.show(this,"数据加载","数据加载中......");
+        //调分线程执行睡眠
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                //必须在分线程中执行，不然主线程会直接执行而导致不显示dialog
+                dialog.dismiss();
+                //ui更新必须在主线程执行，所以这里调用runOnThread接口实现run方法，此时的run方法是在主线程执行。
+                runOnUiThread(new Runnable() {
+                                  @Override
+                                  public void run() {
+                                      Toast.makeText(DialogActivity.this,"执行完成",Toast.LENGTH_SHORT).show();;
+                                  }
+                              }
+                );
+            }
+        }.start();
+
+    }
+//显示水平进度条
+    public void showED(View view) {
+        ProgressDialog pd=new ProgressDialog(this);
+        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        pd.show();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int count = 100;
+                pd.setMax(count);
+                for (int i = 0; i <= count; i++) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    pd.setProgress(pd.getProgress() + 1);
+                }
+                pd.dismiss();
+            }
+        }).start();
+
+    }
+
+    public void showDate(View view) {
+        Calendar calendar=Calendar.getInstance();
+        final int year=calendar.get(Calendar.YEAR);
+        final int monthOfYear=calendar.get(Calendar.MONTH);
+        final int dayOfMonth=calendar.get(Calendar.DAY_OF_MONTH);
+
+        Log.e("TAG",year+"-"+monthOfYear+"-"+dayOfMonth);
+
+        new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Log.e("TAG",year+"--"+monthOfYear+"--"+dayOfMonth);
+            }
+        },year,monthOfYear,dayOfMonth).show();
+    }
+
+    public void showTime(View view) {
+        Calendar calendar=Calendar.getInstance();
+        int hourOfDay=calendar.get(Calendar.HOUR_OF_DAY);
+        int minute=calendar.get(Calendar.MINUTE);
+        int second=calendar.get(Calendar.SECOND);
+
+        Log.e("TAG",hourOfDay+":"+minute+":"+second);
+
+        new TimePickerDialog(this,new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                Log.e("TAG",hourOfDay+":"+minute);
+            }
+        },hourOfDay,minute,true).show();
     }
 }

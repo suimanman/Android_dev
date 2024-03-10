@@ -34,5 +34,29 @@
             android:layout_height="wrap_content"
             android:onClick="showCD"
             android:text="显示自定义Dialog" />
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="showDD"
+            android:text="显示圆形进度条" />
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="showED"
+            android:text="显示水平进度条" />
+        <Button
+            android:id="@+id/button6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="showDate"
+            android:text="显示日期" />
+        <Button
+            android:id="@+id/button7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="showTime"
+            android:text="显示时间" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
