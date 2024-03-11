@@ -43,13 +43,13 @@ public class DialogActivity extends AppCompatActivity {
                 .setPositiveButton("删除", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(DialogActivity.this,"删除数据！",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DialogActivity.this,"删除成功！",Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(DialogActivity.this,"取消删除！",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DialogActivity.this,"取消删除",Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();
